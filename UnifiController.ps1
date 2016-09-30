@@ -1,5 +1,5 @@
 ﻿# Begin log file, this will be placed on the client the script is being run from, do not modify unless you want to disable logging
-$ErrorActionPreference="SilentlyContinue"
+$ErrorActionPreference = "SilentlyContinue"
 Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
 Start-Transcript -path C:\UnifiController.txt -append
