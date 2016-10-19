@@ -4,7 +4,7 @@ gateway="192.168.1.1"
 dns="192.168.1.2"
 apt-get update
 apt-get dist-upgrade -y
-apt-get install cron-apt -y
+apt-get install cron-apt htop -y
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -28,7 +28,6 @@ apt-get update
 apt-get install unifi -y
 sed -i "40i is_defualt=false" /usr/lib/unifi/data/system.properties
 sed -i "41i unifi.https.port=443" /usr/lib/unifi/data/system.properties
-apt-get install htop -y
 iptables -F
 iptables -P INPUT DROP
 iptables -A INPUT -i lo -p all -j ACCEPT
