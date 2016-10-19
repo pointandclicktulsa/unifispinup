@@ -5,9 +5,9 @@ dns="192.168.1.2"
 apt-get update
 apt-get dist-upgrade -y
 apt-get install cron-apt -y
-echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysct.conf
-echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysct.conf
-echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysct.conf
+echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
 sysctl -p
 sed -i -e 's/iface eth0 inet dhcp/#iface eth0 inet dhcp/g' /etc/network/interfaces
 echo "iface eth0 inet static" >> /etc/network/interfaces
@@ -26,7 +26,8 @@ echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /e
 apt-key adv --keyserver keyserver.ubuntu.com --recv C0A52C50
 apt-get update
 apt-get install unifi -y
-sed -i -e 's/# unifi.https.port=8443/unifi.https.port=443/g' /usr/lib/unifi/data/system.properties
+sed -i "40i is_defualt=false" /usr/lib/unifi/data/system.properties
+sed -i "41i unifi.https.port=443" /usr/lib/unifi/data/system.properties
 apt-get install htop -y
 iptables -F
 iptables -P INPUT DROP
