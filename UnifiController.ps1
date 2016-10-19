@@ -23,7 +23,10 @@ echo "Directory already exists!"
 }
 
 # Download Ubuntu ISO
+If (!(Test-Path $ISO))
+{
 Invoke-WebRequest "http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-server-amd64.iso" -UseBasicParsing -OutFile "$ISO"
+}
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
 New-VHD -Path $VHDpath -SizeBytes 10GB -Fixed
