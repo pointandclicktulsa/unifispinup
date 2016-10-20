@@ -19,13 +19,17 @@ New-Item -Path $ISOpath -ItemType Directory
 }
 else 
 {
-echo "Directory already exists!"
+echo "ISO directory already exists!"
 }
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO))
 {
 Invoke-WebRequest "http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-server-amd64.iso" -UseBasicParsing -OutFile "$ISO"
+}
+else
+{
+echo "Ubuntu 16.04.1 ISO already exists!"
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
