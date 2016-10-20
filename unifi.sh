@@ -26,7 +26,6 @@ echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /e
 apt-key adv --keyserver keyserver.ubuntu.com --recv C0A52C50
 apt-get update
 apt-get install unifi -y
-sed -i "40i is_default=false" /usr/lib/unifi/data/system.properties
 sed -i "41i unifi.https.port=443" /usr/lib/unifi/data/system.properties
 # not sure if smallfiles makes a big difference, testing needed
 # echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
