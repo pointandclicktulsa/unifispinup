@@ -29,7 +29,7 @@ Invoke-WebRequest "http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-server-amd6
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
-New-VHD -Path $VHDpath -SizeBytes 10GB -Fixed
+New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
 New-VM -Name $VMName -MemoryStartupBytes 1024MB -Generation 1
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
 Set-VMDvdDrive -VMName $VMName -ControllerNumber 1 -Path $ISO
