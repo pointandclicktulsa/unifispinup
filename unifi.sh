@@ -28,6 +28,9 @@ apt-get update
 apt-get install unifi -y
 sed -i "40i is_default=false" /usr/lib/unifi/data/system.properties
 sed -i "41i unifi.https.port=443" /usr/lib/unifi/data/system.properties
+# not sure if smallfiles makes a big difference, testing needed
+# echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
+echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
 iptables -F
 iptables -P INPUT DROP
 iptables -A INPUT -i lo -p all -j ACCEPT
