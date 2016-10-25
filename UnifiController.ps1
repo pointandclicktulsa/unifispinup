@@ -5,10 +5,10 @@ $ErrorActionPreference = "Continue"
 Start-Transcript -path C:\Unifi.txt -append
 
 # Script variables, change as needed
-$VHDpath = "c:\Hyper-V\Unifi.vhdx"
 $ISO = "c:\admin\ISO\ubuntu-16.04.1-server-amd64.iso"
 $ISOPath = "c:\admin\ISO\"
 $VMName = "Unifi"
+$VHDpath = "c:\Hyper-V\$VMName.vhdx"
 $ServerName = "Clark-PC"
 $VMSwitch = "External vSwitch"
 
@@ -40,7 +40,7 @@ Set-VMDvdDrive -VMName $VMName -ControllerNumber 1 -Path $ISO
 Get-VMNetworkAdapter -VMName $VMName | Connect-VMNetworkAdapter -SwitchName $VMSwitch
 
 # Start and connect to VM
-Start-VM -Name Unifi
+Start-VM -Name $VMName
 vmconnect $ServerName $VMName
 
 # End log file
