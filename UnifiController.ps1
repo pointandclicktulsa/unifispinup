@@ -10,7 +10,7 @@ $ISOPath = "c:\admin\ISO\"
 $VMName = "Unifi"
 $VHDpath = "c:\Hyper-V\$VMName.vhdx"
 $ServerName = "$env:computername"
-$VMSwitch = "Get-VMSwitch"
+$VMSwitch = "Get-VMSwitch -SwitchType External"
 
 # Test for ISO folder existence
 If (!(Test-Path $ISOpath) -And !(Test-Path "C:\admin\ISOs\"))
