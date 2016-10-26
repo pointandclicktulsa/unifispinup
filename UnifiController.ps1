@@ -9,8 +9,8 @@ $ISO = "c:\admin\ISO\ubuntu-16.04.1-server-amd64.iso"
 $ISOPath = "c:\admin\ISO\"
 $VMName = "Unifi"
 $VHDpath = "c:\Hyper-V\$VMName.vhdx"
-$ServerName = "Clark-PC"
-$VMSwitch = "External vSwitch"
+$ServerName = "$env:computername"
+$VMSwitch = "Get-VMSwitch"
 
 # Test for ISO folder existence
 If (!(Test-Path $ISOpath) -And !(Test-Path "C:\admin\ISOs\"))
@@ -34,10 +34,10 @@ echo "Ubuntu 16.04.1 ISO already exists!"
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
 New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
-New-VM -Name $VMName -MemoryStartupBytes 1024MB -Generation 1
+New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 1
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
 Set-VMDvdDrive -VMName $VMName -ControllerNumber 1 -Path $ISO
-Get-VMNetworkAdapter -VMName $VMName | Connect-VMNetworkAdapter -SwitchName $VMSwitch
+Get-VMNetworkAdapter -VMName $VMName | Connect-VMNetworkAdapter -SwitchName ($VMSwitch)
 
 # Start and connect to VM
 Start-VM -Name $VMName
