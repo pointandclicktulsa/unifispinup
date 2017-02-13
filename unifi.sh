@@ -11,6 +11,9 @@ dns="192.168.1.2"
 apt-get update
 apt-get dist-upgrade -y
 apt-get install cron-apt htop -y
+apt-get install linux-virtual-lts-xenial
+apt-get install linux-tools-virtual-lts-xenial
+apt-get install linux-cloud-tools-virtual-lts-xenial
 # Disable ipv6 on all interfaces, remove if your network is actually using ipv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
