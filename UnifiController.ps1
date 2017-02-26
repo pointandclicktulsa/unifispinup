@@ -26,8 +26,8 @@ echo "ISO directory already exists!"
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
-echo "Downloading Ubuntu Server 16.04.1 LTS ISO"
-Invoke-WebRequest "http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-server-amd64.iso" -UseBasicParsing -OutFile "$ISO"
+echo "Downloading Ubuntu Server 16.04.2 LTS ISO"
+Invoke-WebRequest "http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso" -UseBasicParsing -OutFile "$ISO"
 }
 else {
 echo "Ubuntu Server 16.04.1 LTS ISO already exists!"
