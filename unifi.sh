@@ -11,10 +11,7 @@ dns="192.168.1.2"
 # Update Ubuntu before starting unifi install, and install cron-apt/htop for maintenance purposes
 apt-get update
 apt-get dist-upgrade -y
-apt-get install cron-apt htop -y
-apt-get install linux-virtual-lts-xenial -y
-apt-get install linux-tools-virtual-lts-xenial -y
-apt-get install linux-cloud-tools-virtual-lts-xenial -y
+apt-get install cron-apt htop linux-virtual-lts-xenial linux-tools-virtual-lts-xenial linux-cloud-tools-virtual-lts-xenial -y
 # Disable ipv6 on all interfaces, remove if your network is actually using ipv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
