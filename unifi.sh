@@ -40,15 +40,18 @@ apt-get install unifi -y
 # not sure if smallfiles makes a big difference, testing needed
 # echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
 echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
-# Iptables hardening to only allow the 5 ports you need
+# Iptables hardening to only allow the 7 ports you need
 iptables -F
 iptables -P INPUT DROP
 iptables -A INPUT -i lo -p all -j ACCEPT
 iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp -m udp --dport 3478 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 6789 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8443 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8843 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8880 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
+iptables -A INPUT -p udp -m udp --dport 10001 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 iptables -A INPUT -j DROP
 # Iptables persistance through reboot
