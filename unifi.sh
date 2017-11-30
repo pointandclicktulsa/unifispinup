@@ -1,3 +1,4 @@
+# Running on port <1024 no longer works, controller runs as non-root since 5.6.22! Unifi MUST use a port above 1024
 # If you want the unifi controller to run the web interface on 443,
 # after the reboot, run "sudo sed -i "40i unifi.https.port=443" /usr/lib/unifi/data/system.properties"
 # If you want it on 8443, do nothing, other than change this script's iptables rules to alow 8443.
@@ -30,12 +31,12 @@ echo "dns-nameservers $dns" >> /etc/network/interfaces
 echo "## Debian/Ubuntu" >> /etc/apt/sources.list
 echo "# stable => unifi4" >> /etc/apt/sources.list
 echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi4 ubiquiti" >> /etc/apt/sources.list
-echo "deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" >> /etc/apt/sources.list
+echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti" >> /etc/apt/sources.list
+echo "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" >> /etc/apt/sources.list
 echo "# oldstable => unifi3" >> /etc/apt/sources.list
 echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi3 ubiquiti" >> /etc/apt/sources.list
 echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /etc/apt/sources.list
-apt-key adv --keyserver keyserver.ubuntu.com --recv C0A52C50
+wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
 apt-get update
 # Start Unifi package install and config
 apt-get install unifi -y
@@ -47,7 +48,7 @@ iptables -F
 iptables -P INPUT DROP
 iptables -A INPUT -i lo -p all -j ACCEPT
 iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 8443 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8843 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8880 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
