@@ -30,7 +30,7 @@ echo "ISO directory already exists!"
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
 echo "Downloading Ubuntu Server 16.04.3 LTS ISO"
-$WebClient.DownloadFile($url, $output)
+$WebClient.DownloadFile($url, $ISO)
 Write-Output "Time Taken: $((Get-Date).Subtract($start_time).seconds) second(s)"
 }
 else {
