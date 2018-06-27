@@ -7,13 +7,13 @@ Start-Transcript -path C:\Unifi.txt -append
 # Script variables, change as needed
 # If you want to run this against a remote Hyper-V host, change $ServerName to a proper computer name.
 # If you have multiple External vSwitches you'll probably also have to manually input the name of the desired vSwitch in $VMSwitch
-$ISO = "c:\admin\ISO\ubuntu-16.04.3-server-amd64.iso"
+$ISO = "c:\admin\ISO\ubuntu-16.04.4-server-amd64.iso"
 $ISOPath = "c:\admin\ISO\"
-$URL = "http://releases.ubuntu.com/16.04.3/ubuntu-16.04.3-server-amd64.iso"
+$URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
 $start_time = Get-Date
 $WebClient = New-Object System.Net.WebClient
 $VMName = "Unifi"
-$VHDpath = "c:\Hyper-V\$VMName.vhdx"
+$VHDpath = "c:\Hyper-V\Virtual Hard Disks\$VMName.vhdx"
 $ServerName = "$env:computername"
 $VMSwitch = Get-VMSwitch -SwitchType External |
               Select-Object -First 1 |
@@ -29,12 +29,12 @@ echo "ISO directory already exists!"
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
-echo "Downloading Ubuntu Server 16.04.3 LTS ISO"
-$WebClient.DownloadFile($url, $output)
+echo "Downloading Ubuntu Server 16.04.4 LTS ISO"
+$WebClient.DownloadFile($url, $ISO)
 Write-Output "Time Taken: $((Get-Date).Subtract($start_time).seconds) second(s)"
 }
 else {
-echo "Ubuntu Server 16.04.2 LTS ISO already exists!"
+echo "Ubuntu Server 16.04.4 LTS ISO already exists!"
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
