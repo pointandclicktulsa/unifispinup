@@ -29,6 +29,7 @@ echo "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" >> /etc/ap
 echo "# oldstable => unifi3" >> /etc/apt/sources.list
 echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi3 ubiquiti" >> /etc/apt/sources.list
 echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /etc/apt/sources.list
+sleep 30
 wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
 apt-get update
 # Start Unifi package install and config
