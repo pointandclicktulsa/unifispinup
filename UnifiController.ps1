@@ -2,7 +2,7 @@
 $ErrorActionPreference = "SilentlyContinue"
 Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
-Start-Transcript -path C:\Unifi.txt -append
+Start-Transcript -path C:\admin\Unifi_log.txt -append
 
 # Script variables, change as needed
 # If you want to run this against a remote Hyper-V host, change $ServerName to a proper computer name.
