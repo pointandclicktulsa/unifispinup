@@ -39,13 +39,19 @@ echo "Ubuntu Server 18.04 LTS ISO already exists!"
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
 New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
-New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 1
+New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 2
+Set-VMMemory -VMName $VMName -DynamicMemoryEnabled 0
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
-Set-VMDvdDrive -VMName $VMName -ControllerNumber 1 -Path $ISO
+Add-VMDvdDrive -VMName $VMName -Path $ISO
 if ($VMSwitch -ne $null) {
   Get-VMNetworkAdapter -VMName $VMName |
     Connect-VMNetworkAdapter -SwitchName $VMSwitch
 }
+$dvd = Get-VMDvdDrive -VMName $VMName
+Set-VMFirmware -VMName $VMName -EnableSecureBoot Off -FirstBootDevice $dvd
+Set-VM -Name $VMName -CheckpointType Production -AutomaticStartAction Start -AutomaticCheckpointsEnabled 0 -AutomaticStopAction ShutDown
+Set-VMProcessor -VMName $VMName -Count 1
+Enable-VMIntegrationService -Name "Guest Service Interface" -VMName $VMName
 
 # Start and connect to VM
 Start-VM -Name $VMName
