@@ -29,12 +29,12 @@ echo "ISO directory already exists!"
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
-echo "Downloading Ubuntu Server 18.04 LTS ISO"
+echo "Downloading Ubuntu Server 16.04.5 LTS ISO"
 $WebClient.DownloadFile($url, $ISO)
 Write-Output "Time Taken: $((Get-Date).Subtract($start_time).seconds) second(s)"
 }
 else {
-echo "Ubuntu Server 18.04 LTS ISO already exists!"
+echo "Ubuntu Server 16.04.5 LTS ISO already exists!"
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
