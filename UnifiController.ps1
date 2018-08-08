@@ -7,9 +7,9 @@ Start-Transcript -path C:\admin\Unifi_log.txt -append
 # Script variables, change as needed
 # If you want to run this against a remote Hyper-V host, change $ServerName to a proper computer name.
 # If you have multiple External vSwitches you'll probably also have to manually input the name of the desired vSwitch in $VMSwitch
-$ISO = "c:\admin\iso\ubuntu-18.04-server-amd64.iso"
+$ISO = "c:\admin\iso\ubuntu-16.04.5-server-amd64.iso"
 $ISOPath = "c:\admin\iso\"
-$URL = "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-amd64.iso"
+$URL = "http://releases.ubuntu.com/16.04/ubuntu-16.04.5-server-amd64.iso"
 $start_time = Get-Date
 $WebClient = New-Object System.Net.WebClient
 $VMName = "Unifi"
