@@ -1,5 +1,7 @@
 # Running on port <1024 no longer works, controller runs as non-root since 5.6.22! Unifi MUST use a port above 1024
 # Set your static IP information in the variables below
+# See https://community.ubnt.com/t5/UniFi-Wireless/UniFi-Installation-Scripts-Works-on-Ubuntu-18-04-and-16-04/td-p/2375150
+# For the install script
 ip="192.168.1.22"
 netmask="255.255.255.0"
 gateway="192.168.1.1"
@@ -8,7 +10,7 @@ dns="192.168.1.2"
 # Update Ubuntu before starting unifi install, and install cron-apt/htop for maintenance purposes
 apt-get update
 apt-get dist-upgrade -y
-apt-get install cron-apt htop linux-virtual-lts-xenial linux-tools-virtual-lts-xenial linux-cloud-tools-virtual-lts-xenial -y
+apt-get install htop linux-virtual-lts-xenial linux-tools-virtual-lts-xenial linux-cloud-tools-virtual-lts-xenial -y
 # Disable ipv6 on all interfaces, remove if your network is actually using ipv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -21,22 +23,8 @@ echo "address $ip" >> /etc/network/interfaces
 echo "netmask $netmask" >> /etc/network/interfaces
 echo "gateway $gateway" >> /etc/network/interfaces
 echo "dns-nameservers $dns" >> /etc/network/interfaces
-# Add Unifi sources, if you want to install from a different channel than unifi5 modify this portion
-echo "## Debian/Ubuntu" >> /etc/apt/sources.list
-echo "# stable => unifi4" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi4 ubiquiti" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti" >> /etc/apt/sources.list
-echo "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" >> /etc/apt/sources.list
-echo "# oldstable => unifi3" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi3 ubiquiti" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /etc/apt/sources.list
-wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
-apt-get update
-# Start Unifi package install and config
-apt-get install unifi -y
-# not sure if smallfiles makes a big difference, testing needed
-# echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
-echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
+# Run the mongodb stuff after installing the controller
+# echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
 # Iptables hardening to only allow the 7 ports you need
 iptables -F
 iptables -P INPUT DROP

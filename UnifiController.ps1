@@ -39,7 +39,7 @@ echo "Ubuntu Server 16.04.5 LTS ISO already exists!"
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
 New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
-New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 2
+New-VM -Name $VMName -MemoryStartupBytes 1024MB -Generation 2
 Set-VMMemory -VMName $VMName -DynamicMemoryEnabled 0
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
 Add-VMDvdDrive -VMName $VMName -Path $ISO
