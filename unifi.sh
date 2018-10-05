@@ -38,13 +38,14 @@ apt-get install unifi -y
 # echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
 echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
 # Firewall config
-ufw allow ssh
-ufw allow 3478
-ufw allow 6789
-ufw allow 58443
-ufw allow 8843
-ufw allow 8880
-ufw allow 8080
-ufw allow 10001
+ufw allow ssh/tcp
+ufw allow 3478/udp
+ufw allow 6789/tcp
+ufw allow 8443/tcp
+ufw allow 8843/tcp
+ufw allow 8880/tcp
+ufw allow 8080/tcp
+ufw allow 10001/udp
+ufw allow 1900/udp
 ufw --force enable
 reboot
