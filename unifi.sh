@@ -1,3 +1,5 @@
+# After running this prep script see the below link!!
+# https://community.ubnt.com/t5/UniFi-Wireless/UniFi-Installation-Scripts-UniFi-Easy-Update-Scripts-Works-on/td-p/2375150
 # Running on port <1024 no longer works, controller runs as non-root since 5.6.22! Unifi MUST use a port above 1024
 # Set your static IP information in the variables below
 ip="192.168.1.22"
@@ -21,37 +23,18 @@ echo "address $ip" >> /etc/network/interfaces
 echo "netmask $netmask" >> /etc/network/interfaces
 echo "gateway $gateway" >> /etc/network/interfaces
 echo "dns-nameservers $dns" >> /etc/network/interfaces
-# Add Unifi sources, if you want to install from a different channel than unifi5 modify this portion
-echo "## Debian/Ubuntu" >> /etc/apt/sources.list
-echo "# stable => unifi4" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi4 ubiquiti" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti" >> /etc/apt/sources.list
-echo "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" >> /etc/apt/sources.list
-echo "# oldstable => unifi3" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian unifi3 ubiquiti" >> /etc/apt/sources.list
-echo "# deb http://www.ubnt.com/downloads/unifi/debian oldstable ubiquiti" >> /etc/apt/sources.list
-wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
-apt-get update
-# Start Unifi package install and config
-apt-get install unifi -y
-# not sure if smallfiles makes a big difference, testing needed
-# echo "unifi.db.extraargs=--smallfiles" >> /usr/lib/unifi/data/system.properties
-echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
-# Iptables hardening to only allow the 7 ports you need
-iptables -F
-iptables -P INPUT DROP
-iptables -A INPUT -i lo -p all -j ACCEPT
-iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A INPUT -p udp -m udp --dport 3478 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 6789 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 8443 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 8843 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 8880 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
-iptables -A INPUT -p udp -m udp --dport 10001 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-iptables -A INPUT -j DROP
-# Iptables persistance through reboot
-su -c "iptables-save > /etc/iptables.conf"
-sed -i "13i iptables-restore < /etc/iptables.conf" /etc/rc.local
+# Firewall config
+ufw --force enable
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh/tcp
+ufw allow 8080/tcp
+ufw allow 8443/tcp
+ufw allow 8880/tcp
+ufw allow 8843/tcp
+ufw allow 6789/tcp
+ufw allow 3478/udp
+ufw allow 5656:5699/udp
+ufw allow 10001/udp
+ufw allow 1900/udp
 reboot
