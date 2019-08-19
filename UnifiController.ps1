@@ -7,9 +7,9 @@ Start-Transcript -path C:\admin\Unifi_log.txt -append
 # Script variables, change as needed
 # If you want to run this against a remote Hyper-V host, change $ServerName to a proper computer name.
 # If you have multiple External vSwitches you'll probably also have to manually input the name of the desired vSwitch in $VMSwitch
-$ISO = "c:\admin\iso\ubuntu-16.04.5-server-amd64.iso"
+$ISO = "c:\admin\iso\ubuntu-16.04.6-server-amd64.iso"
 $ISOPath = "c:\admin\iso\"
-$URL = "http://releases.ubuntu.com/16.04/ubuntu-16.04.5-server-amd64.iso"
+$URL = "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso"
 $start_time = Get-Date
 $WebClient = New-Object System.Net.WebClient
 $VMName = "Unifi"
@@ -29,17 +29,17 @@ echo "ISO directory already exists!"
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
-echo "Downloading Ubuntu Server 16.04.5 LTS ISO"
+echo "Downloading Ubuntu Server 16.04.6 LTS ISO"
 $WebClient.DownloadFile($url, $ISO)
 Write-Output "Time Taken: $((Get-Date).Subtract($start_time).seconds) second(s)"
 }
 else {
-echo "Ubuntu Server 16.04.5 LTS ISO already exists!"
+echo "Ubuntu Server 16.04.6 LTS ISO already exists!"
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
 New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
-New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 2
+New-VM -Name $VMName -MemoryStartupBytes 2048MB -Generation 2
 Set-VMMemory -VMName $VMName -DynamicMemoryEnabled 0
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
 Add-VMDvdDrive -VMName $VMName -Path $ISO
