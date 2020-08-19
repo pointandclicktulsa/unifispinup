@@ -7,9 +7,9 @@ Start-Transcript -path C:\admin\Unifi_log.txt -append
 # Script variables, change as needed
 # If you want to run this against a remote Hyper-V host, change $ServerName to a proper computer name.
 # If you have multiple External vSwitches you'll probably also have to manually input the name of the desired vSwitch in $VMSwitch
-$ISO = "c:\admin\iso\ubuntu-18.04-server-amd64.iso"
+$ISO = "c:\admin\iso\ubuntu-20.04.1-live-server-amd64.iso"
 $ISOPath = "c:\admin\iso\"
-$URL = "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-amd64.iso"
+$URL = "https://releases.ubuntu.com/20.04.1/ubuntu-20.04.1-live-server-amd64.iso"
 $start_time = Get-Date
 $WebClient = New-Object System.Net.WebClient
 $VMName = "Unifi"
@@ -29,17 +29,17 @@ echo "ISO directory already exists!"
 
 # Download Ubuntu ISO
 If (!(Test-Path $ISO)) {
-echo "Downloading Ubuntu Server 18.04 LTS ISO"
+echo "Downloading Ubuntu Server 20.04.1 LTS ISO"
 $WebClient.DownloadFile($url, $ISO)
 Write-Output "Time Taken: $((Get-Date).Subtract($start_time).seconds) second(s)"
 }
 else {
-echo "Ubuntu Server 18.04 LTS ISO already exists!"
+echo "Ubuntu Server 20.04.1 LTS ISO already exists!"
 }
 
 # Create VHDX, VM, attach vSwitch, mount Ubuntu ISO
-New-VHD -Path $VHDpath -SizeBytes 20GB -Fixed
-New-VM -Name $VMName -MemoryStartupBytes 512MB -Generation 2
+New-VHD -Path $VHDpath -SizeBytes 40GB
+New-VM -Name $VMName -MemoryStartupBytes 2048MB -Generation 2
 Set-VMMemory -VMName $VMName -DynamicMemoryEnabled 0
 Add-VMHardDiskDrive -VMName $VMName -Path $VHDpath
 Add-VMDvdDrive -VMName $VMName -Path $ISO
@@ -49,8 +49,7 @@ if ($VMSwitch -ne $null) {
 }
 $dvd = Get-VMDvdDrive -VMName $VMName
 Set-VMFirmware -VMName $VMName -EnableSecureBoot Off -FirstBootDevice $dvd
-Set-VM -Name $VMName -CheckpointType Production -AutomaticStartAction Start -AutomaticCheckpointsEnabled 0 -AutomaticStopAction ShutDown
-Set-VMProcessor -VMName $VMName -Count 1
+Set-VM -Name $VMName -ProcessorCount 2 -CheckpointType Production -AutomaticStartAction Start -AutomaticCheckpointsEnabled 0 -AutomaticStopAction ShutDown
 Enable-VMIntegrationService -Name "Guest Service Interface" -VMName $VMName
 
 # Start and connect to VM
