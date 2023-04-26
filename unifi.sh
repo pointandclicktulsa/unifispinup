@@ -15,6 +15,9 @@ ufw --force enable
 ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh/tcp
+ufw allow 53/tcp
+ufw allow 53/udp
+ufw allow 443/tcp
 ufw allow 3478/udp
 ufw allow 5514/udp
 ufw allow 8080/tcp
@@ -25,4 +28,5 @@ ufw allow 6789/tcp
 ufw allow 5656:5699/udp
 ufw allow 10001/udp
 ufw allow 1900/udp
+ufw allow 123/udp
 reboot
